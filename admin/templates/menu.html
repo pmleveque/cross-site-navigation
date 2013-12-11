@@ -1,0 +1,101 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}Menu "{{ menu.name }}"{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+	#sortable { list-style-type: none; margin: 0; padding: 0; width: 600px; }
+	#sortable li { margin: 0 3px 3px 3px; padding: 0.2em; padding-left: 1.5em; font-size: 12px; height: 35px; }
+	#sortable li a { font-size: 10px; }
+	#sortable li span { position: absolute; margin-left: -1.3em; }
+	#sortable li a.DELETE { font-size: 12px; position: absolute; left: 720px; margin-left: -1.3em; }
+	#sortable li a.edit { font-size: 12px; position: absolute; left: 650px; margin-left: -1.3em; }	</style>
+	<script type="text/javascript">
+	$(function() {
+		$("#sortable").sortable({update: function(event, ui) {
+			var array = $(this).sortable('toArray');
+			if (array!=[]) {
+				var listOrder = $.map(array, function (a) { return (a.split("-"))[1]; }).toString();
+				$.ajax({ type: "GET", data: {'order': listOrder},  url: "/admin/menus/{{ menu.key }}/reorder", success: function(){ window.location = ""; }});
+			};
+			}});
+		return false;
+		$("#sortable").disableSelection();
+	});
+	</script>
+{% if user.admin %}
+<form action="/admin/menus/{{ menu.key }}" method="post">
+	<input type="hidden" name="method" value="put" />
+		{% if menu.shared%}
+			<label for="shared">Ce menu est public</label>	
+			<input type="hidden" name="shared" value="false" />
+			<input type="submit" name="shared" value="Rendre privé" > 
+		{% else %}
+			<label for="shared">Ce menu est privé</label>	
+			<input type="hidden" name="shared" value="true" />
+			<input type="submit" name="shared" value="Rendre public" >
+		{% endif %}	
+</form>
+{% endif %}
+<p>(Faites glisser pour modifier l&#x27;ordre)</p>
+	<ul id="sortable">
+{% for link in links %}
+		<li class="ui-state-default" id="link-{{ link.order }}">
+			<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+			{{ link.name|escape }}
+			<a href="/admin/menus/{{ menu.key }}/links/{{ link.key|escape }}" class="button_link edit">Modifier</a>
+			<a href="/admin/menus/{{ menu.key }}/links/{{ link.key|escape }}" class="button_link DELETE">Supprimer</a>
+			<br />{{ link.url|urlizetrunc:70 }}
+			
+		</li>
+{% endfor %}
+	</ul>
+
+<script type="text/javascript" charset="utf-8">
+	$("a.DELETE").click(function() {
+        $.ajax({ type: "DELETE", url: $(this).attr("href"), success: function(){ window.location = ""; }});
+		return false;
+	});
+</script>
+
+<h3>Ajouter un lien:</h3>
+<form action="/admin/menus/{{ menu.key }}/links/" method="post">
+	<p>
+		<label for="name">Nom:</label><input size="35" type="text" name="name" value="" id="name" />
+		<label for="url">URL:</label><input size="35" type="text" name="url" value="" id="url" />
+		<input type="submit" value="Ajouter">
+	</p>
+	<p>
+		Pour ajouter un titre de section, mettre le texte de ce dernier dans le champ "Nom" et laisser le champ "URL" vide
+	</p>
+</form>
+
+<h3>Modifier le nom du menu :</h3>
+<form action="/admin/menus/{{ menu.key }}" method="post">
+	<input type="hidden" name="method" value="put" />
+	<p><input type="text" size="35" name="name" value="{{ menu.name }}" /><input type="submit" value="Modifier" /></p>
+</form>
+
+{% if not menu.special_kind %}
+
+<h3>Menus qui utilisent cette barre de navigation :</h3>
+<p>
+	<ul>
+		<li>Premier menu</li>
+		{% for navbar in navbar_first_set %}<li><a href="/admin/navbars/{{ navbar.key }}">{{ navbar.name|escape }} ({{ navbar.code|escape }}.js)</a></li>{% endfor %}
+		<li>Deuxième menu</li>
+		{% for navbar in navbar_second_set %}<li><a href="/admin/navbars/{{ navbar.key }}">{{ navbar.name|escape }} ({{ navbar.code|escape }}.js)</a></li>{% endfor %}
+		<li>Toisième menu</li>
+		{% for navbar in navbar_third_set %}<li><a href="/admin/navbars/{{ navbar.key }}">{{ navbar.name|escape }} ({{ navbar.code|escape }}.js)</a></li>{% endfor %}
+		<li>Quatrième menu</li>
+		{% for navbar in navbar_fourth_set %}<li><a href="/admin/navbars/{{ navbar.key }}">{{ navbar.name|escape }} ({{ navbar.code|escape }}.js)</a></li>{% endfor %}
+	</ul>
+</p>
+
+{% endif %}
+
+<a href="/admin/" >Retour au menu principal</a>
+
+
+{% endblock %}

@@ -1,0 +1,49 @@
+# Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
+application: catholiquefr
+version: 2-2-0
+runtime: python
+api_version: 1
+
+handlers:
+# Page d accueil recherche.catholique.fr
+- url: /
+  script: recherche/recherche.py
+  
+# Ancienne version de l API
+- url: /api/navigation_bar.0-4.js
+  script: navigation_bar/0-4/navigation_bar.py
+
+# Nouvelle version de l API JS
+- url: /api/.*
+  script: navigation_bar/1-0/navigation_bar.py
+
+# Script d importation initiale (menus et barre de nav CEF)
+- url: /admin/import
+  script: admin/import/import.py
+  # Il est necessaire d etre admin du compte GAE
+  login: admin
+# Script d importation initiale (menus et barre de nav CEF)
+- url: /admin/correct
+  script: admin/import/correct.py
+  # Il est necessaire d etre admin du compte GAE
+  login: admin
+
+
+# Interface d admin
+- url: /admin.*
+  script: admin/admin.py
+  login: required
+  
+# Dossiers statiques
+- url: /stylesheets
+  static_dir: stylesheets
+  
+- url: /javascripts
+  static_dir: javascripts
+  
+- url: /img
+  static_dir: img
+  
+- url: /favicon.ico
+  static_files: img/favicon.ico
+  upload: img/favicon.ico

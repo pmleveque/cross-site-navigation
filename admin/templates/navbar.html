@@ -1,0 +1,316 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}Barre de navigation "{{ navbar.name }}"{% endblock %}
+
+{% block content %}
+<div id="cef-root"></div> 
+		
+<script type="text/javascript" charset="utf-8"> 
+window.cefAsyncInit = function() {
+    CEF.initNavigationBar();
+};
+(function() {
+var e = document.createElement('script'); e.async = true;
+e.src = '/api/{{navbar.code}}.js?random={{random}}';
+document.getElementById('cef-root').appendChild(e);
+}());
+</script>
+		
+<script type="text/javascript" charset="utf-8">
+$(function() {
+	$("#navbar_put_form").change(function(){$(this).submit();});
+	
+	$("#new_navbar_first_dialog").dialog({
+		autoOpen: false,
+		height: 200,
+		width: 200,
+		modal: true,
+		buttons: {
+			'Valider': function() {
+				$("#new_navbar_first_dialog form").submit();
+				$(this).dialog('close');
+			},
+			'Annuler': function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+	
+	$("#new_navbar_second_dialog").dialog({
+		autoOpen: false,
+		height: 200,
+		width: 200,
+		modal: true,
+		buttons: {
+			'Valider': function() {
+				$("#new_navbar_second_dialog form").submit();
+				$(this).dialog('close');
+			},
+			'Annuler': function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+		
+	$("#new_navbar_third_dialog").dialog({
+		autoOpen: false,
+		height: 200,
+		width: 200,
+		modal: true,
+		buttons: {
+			'Valider': function() {
+				$("#new_navbar_third_dialog form").submit();
+				$(this).dialog('close');
+			},
+			'Annuler': function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+		
+	$("#new_navbar_fourth_dialog").dialog({
+		autoOpen: false,
+		height: 200,
+		width: 200,
+		modal: true,
+		buttons: {
+			'Valider': function() {
+				$("#new_navbar_fourth_dialog form").submit();
+				$(this).dialog('close');
+			},
+			'Annuler': function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+			
+	$('#new_navbar_first_button').button().click(function() {
+		$('#new_navbar_first_dialog').dialog('open'); return false;
+	});
+	$('#new_navbar_second_button').button().click(function() {
+		$('#new_navbar_second_dialog').dialog('open'); return false;
+	});
+	$('#new_navbar_third_button').button().click(function() {
+		$('#new_navbar_third_dialog').dialog('open'); return false;
+	});
+	$('#new_navbar_fourth_button').button().click(function() {
+		$('#new_navbar_fourth_dialog').dialog('open'); return false;
+	});
+});
+</script>
+
+<h3>Contenu de cette barre</h3>
+
+
+<div id="new_navbar_first_dialog" title="Cr&eacute;er un nouveau menu">
+	<form action="/admin/menus/" method="post" accept-charset="utf-8">
+		Nom de ce menu : <input type="text" name="name" />
+		<input type="hidden" name="navbar_first_key" value="{{ navbar.key }}" />
+	</form>
+</div>
+
+<div id="new_navbar_second_dialog" title="Cr&eacute;er un nouveau menu">
+	<form action="/admin/menus/" method="post" accept-charset="utf-8">
+		Nom de ce menu : <input type="text" name="name" />
+		<input type="hidden" name="navbar_second_key" value="{{ navbar.key }}" />
+	</form>
+</div>
+
+<div id="new_navbar_third_dialog" title="Cr&eacute;er un nouveau menu">
+	<form action="/admin/menus/" method="post" accept-charset="utf-8">
+		Nom de ce menu : <input type="text" name="name" />
+		<input type="hidden" name="navbar_third_key" value="{{ navbar.key }}" />
+	</form>
+</div>
+
+<div id="new_navbar_fourth_dialog" title="Cr&eacute;er un nouveau menu">
+	<form action="/admin/menus/" method="post" accept-charset="utf-8">
+		Nom de ce menu : <input type="text" name="name" />
+		<input type="hidden" name="navbar_fourth_key" value="{{ navbar.key }}" />
+	</form>
+</div>
+
+<form id="navbar_put_form" action="/admin/navbars/{{ navbar.key }}" method="post">
+	<input type="hidden" name="method" value="put" />
+	<p>Premier menu :
+		<select name="first_menu" id="first_menu_select" size="1">
+			<optgroup label="Mes Menus">
+				<option value="None">-- aucun --</option>
+				{% for menu in menus_list %}
+				<option value="{{menu.key}}" {% ifequal navbar.first_menu.key menu.key %}selected="selected"{% endifequal %}>
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+			<optgroup label="Menus communs">
+				<option value="None">-- aucun --</option>
+				{% for menu in commun_menus_list %}
+				<option  value="{{menu.key}}" {% ifequal navbar.first_menu.key menu.key %}selected="selected"{% endifequal %}> 
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+		</select>
+		<a class="button_link" href="/admin/menus/{{ navbar.first_menu.key }}">Modifier ce menu</a>
+		<a href="" id="new_navbar_first_button">Nouveau menu</a>
+	</p>
+	<p>Deuxième menu : 
+		<select name="second_menu" id="second_menu_select" size="1">
+			<optgroup label="Mes Menus">
+				<option value="None">-- aucun --</option>
+				{% for menu in menus_list %}
+				<option value="{{menu.key}}" {% ifequal navbar.second_menu.key menu.key %}selected="selected"{% endifequal %}>
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+			<optgroup label="Menus communs">
+				<option value="None">-- aucun --</option>
+				{% for menu in commun_menus_list %}
+				<option  value="{{menu.key}}" {% ifequal navbar.second_menu.key menu.key %}selected="selected"{% endifequal %}> 
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+		</select>
+		<a class="button_link" href="/admin/menus/{{ navbar.second_menu.key }}">Modifier ce menu</a>
+		<a href="" id="new_navbar_second_button">Nouveau menu</a>
+	</p>
+	<p>Troisième menu : 
+		<select name="third_menu" id="third_menu_select" size="1">
+			<optgroup label="Mes Menus">
+				<option value="None">-- aucun --</option>
+				{% for menu in menus_list %}
+				<option value="{{menu.key}}" {% ifequal navbar.third_menu.key menu.key %}selected="selected"{% endifequal %}>
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+			<optgroup label="Menus communs">
+				<option value="None">-- aucun --</option>
+				{% for menu in commun_menus_list %}
+				<option  value="{{menu.key}}" {% ifequal navbar.third_menu.key menu.key %}selected="selected"{% endifequal %}> 
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+		</select>
+		<a class="button_link" href="/admin/menus/{{ navbar.third_menu.key }}">Modifier ce menu</a>
+		<a href="" id="new_navbar_third_button">Nouveau menu</a>
+	</p>
+	<p>Quatrième menu : 
+		<select name="fourth_menu" id="fourth_menu_select" size="1">
+			<optgroup label="Mes Menus">
+				<option value="None">-- aucun --</option>
+				{% for menu in menus_list %}
+				<option value="{{menu.key}}" {% ifequal navbar.fourth_menu.key menu.key %}selected="selected"{% endifequal %}>
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+			<optgroup label="Menus communs">
+				<option value="None">-- aucun --</option>
+				{% for menu in commun_menus_list %}
+				<option  value="{{menu.key}}" {% ifequal navbar.fourth_menu.key menu.key %}selected="selected"{% endifequal %}> 
+					{{menu.name|escape}}
+					({% for navbar in menu.navbar_first_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_second_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_third_set %}{{ navbar.name }} {% endfor %}
+					{% for navbar in menu.navbar_fourth_set %}{{ navbar.name }} {% endfor %})
+				</option>
+				{% endfor %}
+			</optgroup>
+		</select>
+		<a class="button_link" href="/admin/menus/{{ navbar.fourth_menu.key }}">Modifier ce menu</a>
+		<a href="" id="new_navbar_fourth_button">Nouveau menu</a>
+	</p>
+	{{ settings }}
+
+	<p>
+		<input type="checkbox" name="settings" value="dioceses_menu_off" {% for set in navbar.settings %}{% ifequal set "dioceses_menu_off" %}checked="checked"{% endifequal %}{%endfor%} />Désactiver le menu "diocèses"<br />
+		<input type="checkbox" name="settings" value="acces_direct_menu_off" {% for set in navbar.settings %}{% ifequal set "acces_direct_menu_off" %}checked="checked"{% endifequal %}{%endfor%} />Désactiver le menu "accès direct"<br />
+		<input type="checkbox" name="settings" value="ressources_menu_off" {% for set in navbar.settings %}{% ifequal set "ressources_menu_off" %}checked="checked"{% endifequal %}{%endfor%} />Désactiver le menu "Ressources"<br />
+		<input type="checkbox" name="settings" value="social_links_off" {% for set in navbar.settings %}{% ifequal set "social_links_off" %}checked="checked"{% endifequal %}{%endfor%} />Désactiver les liens de partage<br />
+	</p>
+	
+	<h4>Moteur de recherche</h4>
+	<p class="search_engine_radio_buttons">
+		<input type="radio" name="cse_unique_id" value="this_site" id="this_site_input" 
+			{% if not navbar.cse_unique_id %}checked="checked"{% endif %}>
+		<label for="this_site_input">Rechercher dans le site courant</label><br />
+		<input type="radio" name="cse_unique_id" value="recherche.catholique.fr" id="catholiquefr_input"
+			{% ifequal navbar.cse_unique_id "recherche.catholique.fr" %}checked="checked"{% endifequal %}>
+		<label for="catholiquefr_input">Rechercher sur le site "recherche.catholique.fr"</label>
+	</p>
+	<p class="search_engine_radio_buttons">
+		Rechercher dans un moteur de recherche personnalis&eacute;e :<br />
+		<span style="color: red;">(N.B.: les moteurs list&eacute;s ci-dessous sont ceux cr&eacute;&eacute;s avec le compte eglise.catholique.france@gmail.com<br /> Pour les modifier, il faut &ecirc;tre loggu&eacute; avec ce compte)</span><br />
+		{% for searchengine in searchengines %}
+		<input type="radio" name="cse_unique_id" value="{{searchengine.cse_unique_id}}" {% ifequal navbar.cse_unique_id searchengine.cse_unique_id %}checked="checked"{% endifequal %}><label>"{{searchengine.title}}" (<code>{{searchengine.cse_id}}</code>)</label> (<a href="http://www.google.com/cse/panel/sites?cx={{searchengine.cse_unique_id}}">Modifier ce moteur</a>)<br />
+		{% endfor %}
+		<input type="radio" id="cse_unique_id_other_radio" name="cse_unique_id"  disabled="disabled" value="other"><label> Autre...</label> 
+		<input type="text" id="cse_unique_id_other" name="cse_unique_id_other" value="{% if navbar.cse_unique_id %}{{ navbar.cse_unique_id }}{% endif %}" size=50 /><input type="submit" value="OK"><br />
+		(indiquer le code unique, par exemple: <code>002848703620547974985:uqc3tjf5wbs</code>,<br /> ou bien le domaine d'un site, par exemple <code>lefigaro.fr</code>)
+	</p>
+</form>
+
+<p><a href="http://www.google.com/cse/manage/create">Créer un nouveau moteur</a> (Il faut être loggué avec le compte eglise.catholique.france@gmail.com, n'oubliez pas de <a href="http://www.google.com/support/customsearch/bin/answer.py?hl=fr&answer=70354">désactiver les publicités</a>)</p>
+
+<script type="text/javascript" charset="utf-8">
+	if ($("p.search_engine_radio_buttons input[checked='checked']").length == 0) {
+		$("#cse_unique_id_other_radio").attr("checked", "checked");
+	};
+	
+	$("#cse_unique_id_other").focus(function(){
+		$("p#search_engine_radio_buttons input").removeAttr("checked");
+		$("#cse_unique_id_other_radio").removeAttr("disabled");
+		$("#cse_unique_id_other_radio").attr("checked", "checked");
+	});
+</script>
+
+<h3>Instructions</h3>
+
+<p><a href="/admin/navbars/{{ navbar.key }}/instructions" >Instructions pour l&#x27;installation de la barre "{{ navbar.name }}"</a></p>
+
+<h3>Nom et code de cette barre</h3>
+
+<form action="/admin/navbars/{{ navbar.key }}" method="post">
+	<input type="hidden" name="method" value="put" />
+	<p>Nom : <input type="text" size="35" name="name" value="{{ navbar.name }}" />
+		Code : <input type="text" size="10" name="code" value="{{ navbar.code }}" />
+		<input type="submit" value="Modifier" /></p>
+		<p>Attention ! Ne modifiez pas le code si la barre a d&eacute;j&agrave; &eacute;t&eacute; install&eacute;e sur des sites !</p>
+</form>
+
+<p><a href="/admin/" >Retour au menu principal</a></p>
+
+
+{% endblock %}
