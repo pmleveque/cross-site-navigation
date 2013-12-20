@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta name="title" content="Le moteur de recherche de l'Eglise catholique" />
+		<meta name="description" content="Le moteur recherche.catholique.fr permet de recherche sur les sites des diocèses, sur les sites de la conférence des évêques de France, sur le site du Vatican, et sur tous les sites en catholique.fr et cef.fr" />
+		<title>Le moteur de recherche de l'Eglise catholique</title>
+		<link rel="icon" type="image/vnd.microsoft.icon" href="/img/favicon.ico" />
+		<style type="text/css" media="screen">
+			body {
+				min-height: 500px;
+				font: 14px Calibri, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+			}
+			h1 {
+				font: normal normal 45px Cambria, Georgia, "Times New Roman", Times, serif;
+				color: #007DC0;
+				position: absolute;
+				top: 50px;
+				left: 305px;
+			}
+			h1 span {
+				color: #004E94;
+			}
+			img {
+				border-style: none;
+			}
+
+			#illustration {
+				position: absolute;
+				top: 80px;
+				left: 110px;
+			}
+			#illustration p {
+				font-size: 12px;
+				margin: 0;
+				padding: 0;
+				color: silver;
+			}
+      div.gsc-control-cse {
+        margin-top: 140px;
+        border:none;
+      }
+      div.gsc-results-wrapper-visible {
+        margin-top: 100px;
+      }
+      table.gsc-search-box {
+        margin-left: 290px;
+        margin-bottom: 50;
+        width: 530px !important;
+      }
+    </style>
+  </head>
+  <body>
+		<div id="cef-root"></div>
+		<h1><span>recherche</span>.catholique.fr</h1>
+		<div id="illustration">
+			<a href="/"><img src="/img/new_logo_sites_cef_grand.png" alt="Logo sites en .catholique.fr" /></a>
+		</div>
+
+    <div class="gcse-search"
+         data-webSearchQueryAddition="-&#34;- Eglise Catholique en France&#34;"
+         data-as_sitesearch=""
+      ></div>
+
+		<script src="//www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+      // nav bar require jquery but do not load it
+      google.load('jquery', '1.6');
+    </script>
+    <script>
+      (function() {
+        // we can use this to restrict the search to a specific site
+        // unfortunatly there is no way to disable this options later
+        // if (/[?&]sites=/.exec(window.location.href)) {
+        //   var site = window.location.href.replace(/(.*)[?&]sites=/, '');
+        //   $('div.gcse-search').attr('data-as_sitesearch', site.split('&')[0]);
+        // }
+
+        // search https://developers.google.com/custom-search/docs/element
+        var cx = "002848703620547974985:uqc3tjf5wbs";
+        var e = document.createElement('script');
+        e.type = 'text/javascript'; e.async = true;
+        e.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
+            '//www.google.com/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(e, s);
+
+        // nav bar
+        window.cefAsyncInit = function() {
+            CEF.initNavigationBar({
+            site_search: false
+          });
+        };
+        e = document.createElement('script');
+        e.type = 'text/javascript'; e.async = true;
+        e.src = '/api/cef.js';
+        s.parentNode.insertBefore(e, s);
+      })()
+		</script>
+    </body>
+</html>
