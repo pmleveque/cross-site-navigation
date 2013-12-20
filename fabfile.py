@@ -30,16 +30,20 @@ def serve():
 
 
 @task
+def inc_version():
+    """inc application version"""
+    version = local('grep -E "^version:" app.yaml', capture=True)
+    version = version.split(':')[1].strip()
+    old_version = version
+    version = [int(i) for i in version.split('-')]
+    version[-1] += 1
+    version = '-'.join([str(i) for i in version])
+    versions = (old_version, version)
+    if prompt('Inc version from %s to %s' % versions, default='n') == 'y':
+        local("sed -i -e 's/%s/%s/' app.yaml" % versions)
+
+
+@task
 def deploy():
     """deploy the application"""
-    if prompt('Increase version ?', default='n') == 'y':
-        versions = local(appcfg('list_versions', '.'), capture=True)
-        versions = versions.split('[', 1)[1].split(',')
-        versions = [v.strip() for v in versions]
-        version = list(reversed([v for v in versions if v[0].isdigit()]))[0]
-        old_version = version
-        version = [int(i) for i in version.split('-')]
-        version[-1] += 1
-        version = '-'.join([str(i) for i in version])
-        local("sed -i -e 's/%s/%s/' app.yaml" % (old_version, version))
     local(appcfg('update', '.'))

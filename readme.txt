@@ -46,6 +46,10 @@ Déployer l'application:
 
     $ fab deploy
 
+Incrémenter la version de l'application
+
+    $ fab inc_version
+
 Ces commandes sont définies dans le fichier fabfile.py
 
 ====
