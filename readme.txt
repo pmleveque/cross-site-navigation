@@ -30,9 +30,23 @@ Le mot de passe se configure dans le fichier settings.py
 EMPLACEMENT DU DÉPOT
 ====
 
-Le dépôt de code se trouve sur le dépôt technologie (http://svn.technologiae.org/svn/)
-Pour consulter le dépôt: http://forge.technologiae.org/projects/catholiquefr/repository
+Le dépôt de code se trouve sur bitbucket: https://bitbucket.org/uadf/recherche.catholique.fr/
 
+====
+DEPLOIEMENT
+====
+
+Il est possible d'utiliser fabric http://docs.fabfile.org/ sous unix.
+
+Servir l'application:
+
+    $ fab serve
+
+Déployer l'application:
+
+    $ fab deploy
+
+Ces commandes sont définies dans le fichier fabfile.py
 
 ====
 CORRECTIONS DE BUGS

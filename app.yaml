@@ -2,7 +2,7 @@
 application: catholiquefr
 version: 2-2-1
 #runtime: python27
-#runtime: python
+runtime: python
 threadsafe: false
 api_version: 1
 
