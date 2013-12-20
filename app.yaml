@@ -1,6 +1,6 @@
 # Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
 application: catholiquefr
-version: 2-2-1
+version: 2-2-2
 #runtime: python27
 runtime: python
 threadsafe: false
@@ -12,6 +12,11 @@ handlers:
 #  script: recherche/recherche.py
   static_files: recherche/recherche_v2.html
   upload: recherche/recherche_v2.html
+
+# test de navigation
+- url: /test.html
+  static_files: navigation_bar/test.html
+  upload: navigation_bar/test.html
 
 # Ancienne version de l API
 - url: /api/navigation_bar.0-4.js

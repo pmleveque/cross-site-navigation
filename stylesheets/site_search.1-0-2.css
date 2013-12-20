@@ -2,6 +2,10 @@
 	http://localhost:8080/stylesheets/site_search.1-0.css
 */
 
+.gcsc-branding {
+    clear: both;
+}
+
 .gsc-control {
 	font: 14px;
 	min-height:400px;
@@ -26,13 +30,6 @@ a.gsc-trailing-more-results,
 	padding: 1px;
 	color: #c00 !important;
 	text-decoration: none !important;
-}
-
-.gsc-branding-text, .gsc-branding-img {
-	display: none !important;
-}
-
-.gsc-control-cse {
 }
 
 input.gsc-input {

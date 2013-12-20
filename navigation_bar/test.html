@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html dir="ltr" lang="fr">
+  <head>
+  </head>
+  <body>
+    <div id='cef-root'></div>
+    <div>
+      <script src="//www.google.com/jsapi" type="text/javascript"></script>
+      <script type="text/javascript">
+        // nav bar require jquery but do not load it
+        google.load('jquery', '1.6');
+      </script>
+      <script>
+      window.cefAsyncInit = function() {
+        CEF.initNavigationBar({
+          site_search: /site_search/.exec(window.location.href) ? true: false,
+          share_links: true,
+          add_top_margin: false,
+          with_animation: true, scrolling_bar: false});
+      };
+
+      (function() {
+        var e = document.createElement('script'); e.async = true;
+        e.src = window.location.href.split('src=')[1] + '?debug=1';
+        document.getElementById('cef-root').appendChild(e);
+      }());
+      </script>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>
+      <a href="/test.html?src=/api/angouleme.js">
+        /test.html?src=/api/angouleme.js
+      </a>
+    </div>
+      <a href="/test.html?site_search=1&src=/api/angouleme.js">
+        /test.html?site_search=1&src=/api/angouleme.js
+      </a>
+    </div>
+    <div>
+      <a href="/test.html?src=/api/cef/snfs.js">
+        /test.html?src=/api/cef/snfs.js
+      </a>
+    </div>
+    <div>
+      <a href="/test.html?site_search=1&src=/api/cef/snfs.js">
+        /test.html?site_search=1&src=/api/cef/snfs.js
+      </a>
+    </div>
+  </body>
+</html>

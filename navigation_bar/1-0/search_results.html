@@ -1,27 +1,26 @@
-<div id='cef_search_floatbox'>
+<div id='cef_search_floatbox' style='display:none'>
 	<span class='remove_cef_search_floatbox' id='cef_close_floatbox'>X</span>
-	<img id='google_custom_search_logo_img' src='http://www.google.com/cse/images/google_custom_search_smnar.gif' name="google_custom_search_logo_img">
-	<h2 id='cef_search_results_h2'>Recherche: &laquo; %query% &raquo;</h2>
-	<div id='this_site_search_results'></div>
+  <h2 id='cef_search_results_h2'>Recherche: &laquo; <span class="cef_query"></span> &raquo;</h2>
+  <div class="gcse-search"></div>
 	<div class='clear'></div>
 	<hr />
-	<h2>Obtenez plus de r&eacute;sultats en recherchant &laquo; %query% &raquo; sur:</h2>
-	<ul>
+  <h2>Obtenez plus de r&eacute;sultats en recherchant &laquo; <span class="cef_query"></span> &raquo; sur:</h2>
+	<ul id="cef_more_result_links">
 		<li>
-			<a href="http://recherche.catholique.fr/?q=%escaped_query%">tous les sites de l&#x27;&Eacute;glise catholique en France</a>
+			<a href="http://recherche.catholique.fr/?q=">tous les sites de l&#x27;&Eacute;glise catholique en France</a>
 		</li>
 		<li>
-			<a href="http://recherche.catholique.fr/?q=%escaped_query%&amp;sites=dioc&egrave;ses">les sites des dioc&egrave;ses</a>
+			<a href="http://recherche.catholique.fr/?q=&amp;sites=dioc&egrave;ses">les sites des dioc&egrave;ses</a>
 		</li>
 		<li>
-			<a href="http://recherche.catholique.fr/?q=%escaped_query%&amp;sites=services+nationaux">les sites des services nationaux</a>
+			<a href="http://recherche.catholique.fr/?q=&amp;sites=services+nationaux">les sites des services nationaux</a>
 		</li>
 		<li>
-			<a href="http://recherche.catholique.fr/?q=%escaped_query%&amp;sites=vatican">le site du Vatican</a>
+			<a href="http://recherche.catholique.fr/?q=&amp;sites=vatican">le site du Vatican</a>
 		</li>
 	</ul>
 	<p>
 		<a href='#' class='remove_cef_search_floatbox'>Fermer cette fen&ecirc;tre</a>
 	</p>
 </div>
-<div id='cef_search_floatbox_bg'></div>
+<div id='cef_search_floatbox_bg' style='display:none'></div>

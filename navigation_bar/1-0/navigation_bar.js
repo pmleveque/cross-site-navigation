@@ -1,38 +1,39 @@
+/*global document, window, jQuery */
 (function($){
 
 /**
  * Simple watermark plugin
- * 
+ *
  * @param defaultVal default null
  * @param color default #cccccc
  * @param fontStyle defualt italic
  * @return jQuery object
- */	
+ */
 $.fn.extend({
     'fieldWaterMark' :function(options){
         var defaults = {
             'defaultVal'    : null,
             'color'         : '#cccccc'
         };
-        
+
         options = $.extend(defaults, options);
-        
+
         return this.each(function(){
             var $this = $(this);
             var currentVal = $.trim($this.val());
-            
+
             $this.css({
                 'color'         : options.color
             });
-            
-            if(currentVal.length <= 0 && options.defaultVal != null)
+
+            if(currentVal.length <= 0 && options.defaultVal !== null)
             {
                 $this.val(options.defaultVal);
                 currentVal = options.defaultVal;
             }
-            
+
             $this.focus(function(){
-                if($.trim($(this).val()) == currentVal)
+                if($.trim($(this).val()) === currentVal)
                 {
                     $(this).val('')
                     .css({
@@ -57,47 +58,47 @@ $.fn.extend({
 
 // Menu plugin
 // © PM Leveque
-jQuery.fn.extend({ 
+jQuery.fn.extend({
 	cef_nav_menu: function() {
 		var menus = $(this);
-		
+
 		var closetimer	= null;
 		var active_menu = null;
 		var timeout    	= 200;
-		
+
 		var close_all_menus = function() {
 			active_menu = null;
 			menus.each(function(){$(this).fadeOut(50);});
 		};
-		
+
 		var start_timer = function() {
 			if (active_menu) {
 				closetimer = window.setTimeout(close_all_menus, timeout);
 			}
 		};
-		
+
 		var cancel_timer = function() {
 			if (closetimer) {
 				window.clearTimeout(closetimer);
 				closetimer = null;
 			}
 		};
-				
+
 		//Iterate over the current set of matched elements
 		return this.each(function(){
 			var menu = $(this);
 			var menu_title = menu.prev("a");
-			
+
 			var menu_show = function(){
 				cancel_timer();
-				if (active_menu != menu) {
+				if (active_menu !== menu) {
 					close_all_menus();
 				}
 				active_menu = menu;
 				menu.css('left', menu_title.offset().left - 6);
 				menu.show();
 			};
-			
+
 			menu_title.click(function(){
 				if (active_menu) {
 					close_all_menus();
@@ -107,11 +108,13 @@ jQuery.fn.extend({
 				return false;
 			});
 			menu_title.mouseover(function(){
-				if (active_menu) {menu_show()};
+				if (active_menu) {
+                    menu_show();
+                }
 			});
 			menu.mouseout(start_timer);
-			menu.mouseover(cancel_timer);			
-			
+			menu.mouseover(cancel_timer);
+
 		});
 	}
 });
@@ -125,6 +128,7 @@ jQuery.fn.extend({
 
 var api_host = "{{host}}";
 window.CEF = {};
+var CEF = window.CEF;
 
 CEF.settings = {
 	site_search: {% ifequal navbar.cse_unique_id "recherche.catholique.fr" %}false{% else %}true{% endifequal %},
@@ -145,102 +149,64 @@ CEF.import_style = function (src){
 	jQuery('head').append('<link rel="stylesheet" href="http://' + api_host + '/stylesheets/' + src + '" type="text/css" media="all" />');
 }
 
-// Triggers search event
-CEF.search = function(query) {
-	var remove_cef_search_floatbox = function(){
-		$("div#cef_search_floatbox").remove();
-		$("div#cef_search_floatbox_bg").remove();
-		return false;
-	}
-	
-	window.scrollTo(0,0);
-	
-	if (query == "" || query == "indiquez ici votre recherche...") {
-		alert("Entrez le texte de votre recherche dans le rectangle à côté de la loupe !");
-	}else{
-		// Si la fenêtre est déjà affichée, on la supprime
-		if ($("div#cef_search_floatbox").length) {
-			remove_cef_search_floatbox();
-		}
+CEF.localSearch = function() {
+    // On active la recherche locale
+    this.import_style("site_search.1-0-2.css");
+    $("body").append(this.searchResultsHtmlTemplate);
+    $("#cef_search_floatbox, #cef_search_floatbox_bg").hide();
+    var cx = this.settings.google_search_restriction;
+    var e = document.createElement('script');
+    e.type = 'text/javascript'; e.async = true;
+    e.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(e, s);
 
-		$("body").append(CEF.searchResultsHtmlTemplate.replace(/%escaped_query%/g, encodeURI(query)).replace(/%query%/g, query));
-		$("div#cef_search_floatbox").hide();
-		$("div#cef_search_floatbox_bg").click(remove_cef_search_floatbox);
-		$(".remove_cef_search_floatbox").click(remove_cef_search_floatbox);
+    // clicka
+    $("#cef_search").submit(function(){
+        var query = $("#site_search").attr("value");
+        CEF.search(query);
+        return false;
+    });
+    // links
+    $("#cef_more_result_links a").click(function() {
+        var query = $("#site_search").attr("value");
+        var link = $(this).attr('href').replace('q=', 'q=' + encodeURI(query));
+        window.location.href = link;
+        return false;
+    });
 
-		// Problèmes avec IE
-		if ($.browser.msie) {
-			$("#cef_search_floatbox_bg").css("background-color", "transparent");
-		}
-
-		// ===========================================
-		// = Premier affichage: résultats de ce site =
-		// ===========================================
-		var thisSiteSearchControl = new google.search.SearchControl();
-		thisSiteSearchControl.setResultSetSize(google.search.Search.SMALL_RESULTSET);
-		// Set a callback so that whenever a search is started we will call XXX
-		// thisSiteSearchControl.setSearchStartingCallback(this, XXX);
-
-		thisSiteSearchControl.setSearchCompleteCallback(this, function(sc, searcher){
-	         $("div#cef_search_floatbox").fadeIn("fast");
-			if(webSearch.results.length==0){
-				$("#this_site_search_results").html("Aucun résultat n'a été trouvé !");
-			}
-	    });
-
-		// Web Search
-		var webSearch = new google.search.WebSearch();
-		webSearch.setUserDefinedLabel(CEF.settings.google_search_restriction_label);
-		//FIXME
-		webSearch.setSiteRestriction(CEF.settings.google_search_restriction);
-
-		// News search
-		var newsSearch = new google.search.NewsSearch();
-		newsSearch.setSiteRestriction("Église");
-
-		// Image Search
-		var imageSearch = new google.search.ImageSearch();
-		imageSearch.setUserDefinedLabel("Images");
-		imageSearch.setSiteRestriction(CEF.settings.google_search_restriction);
-
-		// Create 3 searchers and add them to the control
-		thisSiteSearchControl.addSearcher(webSearch);
-		if (CEF.settings.image_search_results) {
-			thisSiteSearchControl.addSearcher(imageSearch);
-		}
-		if (CEF.settings.news_search_results) {
-			thisSiteSearchControl.addSearcher(newsSearch);
-		}
-
-		// Set the options to draw the control in tabbed mode
-		var drawOptions = new google.search.DrawOptions();
-		drawOptions.setDrawMode(google.search.SearchControl.DRAW_MODE_TABBED);
-		// drawOptions.setInput("site_search");
-
-		thisSiteSearchControl.draw('this_site_search_results', drawOptions);
-
-		thisSiteSearchControl.execute(query);
-				
-		// Google Analytics tracking
-		if(typeof(pageTracker)!='undefined'){
-			pageTracker._trackPageview('/?search_query=' + query);
-		}
-	}
-	
+    // close search
+    $('.remove_cef_search_floatbox').click(function() {
+        $("#cef_search_floatbox, #cef_search_floatbox_bg").hide();
+    });
 }
 
-// Fonction d'initialisation de la recherche
-CEF.initializeSearch = function(){
-	try {			
-		$("#cef_search").submit(function(){
-			var query = $("#site_search").attr("value");
-			CEF.search(query);
-			return false;
-		});
-		
-	}catch(err){}
-};
-	
+// Triggers search event
+CEF.search = function(query) {
+
+    $('.gsc-search-box').hide();
+    $('.gsc-input').val(query);
+    $('.gsc-search-button').click();
+    $('.cef_query').text(query);
+
+	window.scrollTo(0,0);
+
+    // Problèmes avec IE
+    if ($.browser.msie) {
+        $("#cef_search_floatbox_bg").css("background-color", "transparent");
+    }
+
+    // show search. everything is handle by gcse
+    $("#cef_search_floatbox, #cef_search_floatbox_bg").show();
+
+    // Google Analytics tracking
+    if(typeof(pageTracker)!='undefined'){
+        pageTracker._trackPageview('/?search_query=' + query);
+    }
+}
+
+
 CEF.initNavigationBar = function(options){
 	// Les options par défaut sont configurées dans la variable CEF.settings
 	if (typeof(options) != 'undefined'){
@@ -258,40 +224,41 @@ CEF.initNavigationBar = function(options){
 	}else{
 		$("body").append(CEF.navigationBarHtml);
 	}
-	
+
 	// On importe la feuille de style
 	// La barre de navigation ne s'affiche qu'une fois cette feuille de style chargée.
 	CEF.import_style("navigation_bar.1-0-2.css");
-	
+
 	// On active le fonctionnement des menus
 	$("div.cef_nav_menu").cef_nav_menu();
-	
+
 	// On supprime les liens de partage si nécessaire
 	if (!CEF.settings.share_links) {
 		$("#cef_navigation_links_right").remove();
 	}
-	
+
 	// La barre de navigation est "fixée" si demandé
 	if (CEF.settings.scrolling_bar) {
 		$("#cef_navigation").css({position: "fixed"});
 	}
-	
-	// On active la recherche interne si demandé	
+
+
+	// On active la recherche interne si demandé
 	if (CEF.settings.site_search) {
-		CEF.import_style("site_search.1-0-2.css");
-		google.load('search', '1', {language: 'fr', callback:CEF.initializeSearch, nocss:true });
 		$('#site_search').fieldWaterMark({defaultVal: 'indiquez ici votre recherche...'});
+        // On active la recherche locale
+        CEF.localSearch();
 	}else{
 		$('#site_search').fieldWaterMark({defaultVal: 'recherche sites catholiques'});
 	}
-	
+
 }
 
 $(window).load(function(){
 	$('#search_input_id').submit(function(){
 		$("#site_search").attr("value", "");
 		return false;
-	})
+	});
 });
 
 if (window.cefAsyncInit) {
@@ -302,5 +269,5 @@ if (window.cefAsyncInit) {
 		CEF.initNavigationBar();
 	});
 };
-	
+
 })(jQuery);
