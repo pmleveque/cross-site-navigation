@@ -16,7 +16,10 @@ from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
 
-from django.utils.html import escape
+if os.environ.get('APPENGINE_RUNTIME') == 'python27':
+    from google.appengine._internal.django.utils.html import escape
+else:
+    from django.utils.html import escape
 
 NEW_VALUE_WHEN_DEPLOYED = os.environ['CURRENT_VERSION_ID']
 
