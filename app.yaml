@@ -1,7 +1,8 @@
 # Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
 application: catholiquefr
 version: 2-2-1
-runtime: python27
+#runtime: python27
+#runtime: python
 threadsafe: false
 api_version: 1
 

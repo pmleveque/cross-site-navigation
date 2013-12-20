@@ -14,12 +14,12 @@ def sdk(*args):
     return os.path.join(p, *args)
 
 
-def appcfg(cmd):
-    return 'echo "%s" | %s -q --passin -e %s %s .' % (
+def appcfg(*args):
+    return 'echo "%s" | %s -q --passin -e %s %s' % (
         settings.CSE_PASSWORD,
         sdk('appcfg.py'),
         settings.CSE_EMAIL,
-        cmd,
+        ' '.join(list(args)),
     )
 
 
@@ -33,7 +33,7 @@ def serve():
 def deploy():
     """deploy the application"""
     if prompt('Increase version ?', default='n') == 'y':
-        versions = local(appcfg('list_versions'), capture=True)
+        versions = local(appcfg('list_versions', '.'), capture=True)
         versions = versions.split('[', 1)[1].split(',')
         versions = [v.strip() for v in versions]
         version = list(reversed([v for v in versions if v[0].isdigit()]))[0]
@@ -42,3 +42,4 @@ def deploy():
         version[-1] += 1
         version = '-'.join([str(i) for i in version])
         local("sed -i -e 's/%s/%s/' app.yaml" % (old_version, version))
+    local(appcfg('update', '.'))
