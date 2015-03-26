@@ -1,12 +1,9 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-from admin.admin_classes import *
-
 from admin.navbar import *
 from admin.menu import *
 from admin.link import *
-from admin.searchengine import *
 from admin.admin_index import *
 from admin.administrator import *
 from authentification import *
@@ -23,9 +20,7 @@ application = webapp.WSGIApplication([
                 ('/admin/menus/', MenusPage),
                 ('/admin/navbars/', NavbarsPage),
                 (r'/admin/navbars/(.+)/instructions', NavbarInstructionsPage),
-                (r'/admin/navbars/(.+)', NavbarPage),
-                ('/admin/searchengines/', SearchenginesPage),
-                (r'/admin/searchengines/(.+)', SearchenginePage),
+                (r'/admin/navbars/(.+)', NavbarPage)
               ], debug=True)
 
 

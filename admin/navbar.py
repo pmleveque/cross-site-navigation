@@ -1,6 +1,5 @@
 # le constructeur de la classe Navbar se trouve dans le fichier cefbase.py (dans la racine du projet)
 # le constructeur de la classe Authentification se trouve dans le fichier authentification.py (dans la racine du projet)
-from admin_classes import *
 from authentification import *
 import random
 from cefbase import *
@@ -21,9 +20,10 @@ class NavbarPage(webapp.RequestHandler):
             commun_menus_list = map(lambda menu: {'name': menu.name, 'key': menu.key(),'shared': menu.shared, 'navbar_first_set':menu.navbar_first_set, 'navbar_second_set':menu.navbar_second_set}, commun_menus)
 
             # Liste des moteurs de recherche disponibles
-            gdatafeed = GdataFeed("http://www.google.com/cse/api/default/cse/")
-            self.response.out.write(gdatafeed)
-            searchengines = map(lambda se: SearchEngineFromXml(se), gdatafeed.elements("CustomSearchEngine"))
+            # gdatafeed = GdataFeed("http://www.google.com/cse/api/default/cse/")
+            # self.response.out.write(gdatafeed)
+            # searchengines = map(lambda se: SearchEngineFromXml(se), gdatafeed.elements("CustomSearchEngine"))
+            searchengines = []
 
             template_values = {
                 'navbar': navbar,
