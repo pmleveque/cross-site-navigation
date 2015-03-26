@@ -7,6 +7,7 @@ import gdata.alt.appengine
 
 from settings import *
 
+
 # Admin-specific classes
 class GdataFeed():
     def __init__(self, feed_url):
