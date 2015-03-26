@@ -9,9 +9,9 @@ api_version: 1
 handlers:
 # Page d accueil recherche.catholique.fr
 - url: /
-#  script: recherche/recherche.py
-  static_files: recherche/recherche_v2.html
-  upload: recherche/recherche_v2.html
+  script: recherche/recherche.py
+  # static_files: recherche/recherche_v2.html
+  # upload: recherche/recherche_v2.html
 
 # test de navigation
 - url: /test.html
