@@ -1,8 +1,8 @@
 # Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
-application: catholiquefr
+application: cef-cross-site-navigation
 version: 3alpha
-#runtime: python27
-runtime: python
+runtime: python27
+#runtime: python
 threadsafe: false
 api_version: 1
 

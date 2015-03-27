@@ -1,4 +1,7 @@
-/*global document, window, jQuery */
+/*global document, window, jq1112 */
+
+var jq1112 = jq1112 || jQuery;
+
 (function($){
 
 /**
@@ -227,7 +230,7 @@ CEF.initNavigationBar = function(options){
 
     // On importe la feuille de style
     // La barre de navigation ne s'affiche qu'une fois cette feuille de style chargée.
-    CEF.import_style("navigation_bar.1-0-2.css");
+    CEF.import_style("navigation_bar.2-0.css");
 
     // On active le fonctionnement des menus
     $("div.cef_nav_menu").cef_nav_menu();
@@ -270,4 +273,4 @@ if (window.cefAsyncInit) {
     });
 };
 
-})(jQuery);
+})(jq1112);

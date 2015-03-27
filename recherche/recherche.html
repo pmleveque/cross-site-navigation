@@ -7,11 +7,6 @@
     <meta name="description" content="Le nouveau moteur recherche.catholique.fr permet de recherche sur les sites des diocèses, sur les sites de la conférence des évêques de France, sur le site du Vatican, et sur tous les sites en catholique.fr et cef.fr" />
     <title>Le moteur de recherche de l'Eglise catholique</title>
     <link rel="icon" type="image/vnd.microsoft.icon" href="/img/favicon.ico" />
-    <script src="//www.google.com/jsapi" type="text/javascript"></script>
-    <script type="text/javascript">
-      // nav bar require jquery but do not load it
-      google.load('jquery', '1.6');
-  </script>
   <style type="text/css" media="screen">
     body {
         min-height: 500px;
@@ -132,41 +127,28 @@
         <br />© recherche.catholique.fr, le moteur de recherche de l'Église catholique.
     </div>
 
+    <script src="//www.google.com/jsapi" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//www.google.com/cse/cse.js?cx=002848703620547974985:uqc3tjf5wbs"></script>
+    <script>var jq1112 = jQuery.noConflict();</script>
+    <script src="/api/cef.js" type="text/javascript"></script>
     <script>
-
-    (function() {
-        var cx = '002848703620547974985:uqc3tjf5wbs';
-        var gcse = document.createElement('script');
-        gcse.type = 'text/javascript';
-        gcse.async = true;
-        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-        '//www.google.com/cse/cse.js?cx=' + cx;
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(gcse, s);
-
-        // nav bar
-        window.cefAsyncInit = function() {
-            CEF.initNavigationBar({
-                site_search: false
-            });
-        };
-        e = document.createElement('script');
-        e.type = 'text/javascript'; e.async = true;
-        e.src = '/api/cef.js';
-        s.parentNode.insertBefore(e, s);
-    })()
-</script>
-<script type="text/javascript">
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-  try {
-      var pageTracker = _gat._getTracker("UA-15247792-1");
-      pageTracker._trackPageview();
-      $('a.gs-title').live('click', function () {
-          pageTracker._trackPageview('/outgoing/' + $(this).attr('href'));
-      });
-  } catch(err) {}
-</script>
+    // nav bar
+    CEF.initNavigationBar({
+        site_search: false
+    });
+    </script>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+          var pageTracker = _gat._getTracker("UA-15247792-1");
+          pageTracker._trackPageview();
+          $('a.gs-title').live('click', function () {
+              pageTracker._trackPageview('/outgoing/' + $(this).attr('href'));
+          });
+      } catch(err) {}
+    </script>
 </html>

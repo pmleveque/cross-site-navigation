@@ -2,6 +2,13 @@
 # http://www.djangoproject.com/documentation/0.96/templates/
 
 from cefbase import *
+import os
+import StringIO
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext.webapp import template
+from google.appengine.api import memcache
+
 
 import jsmin
 jsm = jsmin.JavascriptMinify()
@@ -16,9 +23,11 @@ class NavbarScript(webapp.RequestHandler):
             raise NameError('MissingHost')
 
         # Systeme de cache
-        js_response = memcache.get(NEW_VALUE_WHEN_DEPLOYED + "_js_response_" + code)
+        js_response = memcache.get(
+            NEW_VALUE_WHEN_DEPLOYED + "_js_response_" + code)
         # Le cache est desactive en local
-        if host == "localhost:8080": js_response = None
+        if host == "localhost:8080":
+            js_response = None
 
         if js_response is None:
             navbar = Navbar.all().filter("code =", code)[0]
@@ -104,6 +113,7 @@ class NavbarScript(webapp.RequestHandler):
 application = webapp.WSGIApplication(
                                      [(r'/api/(.+)\.js', NavbarScript)],
                                      debug=True)
+
 
 def main():
     run_wsgi_app(application)

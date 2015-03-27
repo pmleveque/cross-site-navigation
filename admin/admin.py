@@ -1,4 +1,4 @@
-from google.appengine.ext import webapp
+import webapp2 as webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 from admin.navbar import *
