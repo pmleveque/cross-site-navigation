@@ -1,6 +1,6 @@
 # Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
 application: cef-cross-site-navigation
-version: 3alpha
+version: 3alpha-1
 runtime: python27
 #runtime: python
 threadsafe: false
@@ -13,10 +13,10 @@ handlers:
   # static_files: recherche/recherche_v2.html
   # upload: recherche/recherche_v2.html
 
-# test de navigation
-- url: /test.html
-  static_files: navigation_bar/test.html
-  upload: navigation_bar/test.html
+# custom search dioceses
+- url: /dioceses.html
+  static_files: recherche/dioceses.html
+  upload: recherche/dioceses.html
 
 # Ancienne version de l API
 - url: /api/navigation_bar.0-4.js
