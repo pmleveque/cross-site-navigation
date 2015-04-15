@@ -1,18 +1,8 @@
-/* @override
-    http://localhost:8080/stylesheets/navigation_bar.1-0.css
-    http://recherche.catholique.fr/stylesheets/site_search.1-0-2.css
-    http://recherche.catholique.fr/stylesheets/navigation_bar.1-0-2.css
-*/
-
-/* Reset div */
-
-#cef_navigation div, #cef_navigation form {
-    margin: 0;
-    padding: 0;
-}
 
 #cef_navigation {
-    font: 13px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    border:0;
+    font-weight:400;
+    font-style: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
     position: absolute;
     top: 0;
     left: 0;
@@ -26,58 +16,49 @@
     right: 0;
     text-align: left;
     z-index: 999999999;
-    -webkit-box-shadow: 0px 0px 6px rgba(1,1,1,0.5);
+/*     -webkit-box-shadow: 0px 0px 6px rgba(1,1,1,0.5);
     -moz-box-shadow: 0px 0px 6px rgba(1,1,1,0.5);
-    box-shadow: 0px 0px 6px rgba(1,1,1,0.5);
-    color: #2c2c2c;
+    box-shadow: 0px 0px 6px rgba(1,1,1,0.5); */
+    color: #313336;
 }
 
-#cef_navigation a img {
-    border-style: none;
-    border-width: 0;
-}
-
-span#cef_navigation_title {
-    color: #373834;
-    font: bold 12px Arial, "Helvetica Neue", Helvetica, Geneva, sans-serif;
-}
+/*menu déroulant*/
 
 #cef_navigation #cef_navigation_links_left {
-    color: #f2f2f2;
     display: block;
     margin-top: 5px;
     background: url(../img/logopetit.catholique.png) no-repeat 0 -1px;
-    margin-left: 5px;
+    margin-left: 10px;
     padding-left: 23px;
 }
+
+/*réseaux sociaux*/
 
 #cef_navigation #cef_navigation_links_right {
     float: right;
     margin-top: 4px;
     display: block;
     margin-right: 4px;
-}
-
-#cef_navigation #cef_navigation_links_right a {
-    vertical-align: -3px;
+    padding: 0px;
 }
 
 #cef_navigation .cef_navigation_links a {
-    color: #004e94;
+    color: #313336;
     text-decoration: none;
     font-weight: normal;
     font-style: normal;
-}
-
-#cef_navigation .cef_navigation_links a small {
-    font-size: 10px;
-    color: #004e94;
+    padding: 5px;
 }
 
 #cef_navigation .cef_navigation_links a:hover {
     color: #004e94;
-    text-decoration: underline;
+    cursor: pointer;
 }
+
+/*#cef_navigation .cef_navigation_links a small {
+    font-size: 10px;
+    color: #004e94;
+}*/
 
 #cef_navigation .cef_navigation_links a.active {
     color: black;
@@ -89,6 +70,18 @@ span#cef_navigation_title {
     text-decoration: none;
 }
 
+#cef_navigation form:before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  height: 29px;
+  width: 29px;
+  font-size: 15px;
+  line-height: 29px;
+  text-align: center;
+  color: #cecece;
+}
 #cef_navigation #site_search_form {
     display: block;
     float: right;
@@ -102,6 +95,7 @@ span#cef_navigation_title {
 
 #site_search_form input#site_search {
     border: 1px solid #b2b2b2;
+    border-radius: 10%;
     padding: 0;
     margin: 0;
     height: 14px;
@@ -123,8 +117,6 @@ span#cef_navigation_title {
 
 
 /* Menu déroulant */
-
-
 
 #cef_navigation .cef_nav_menu {
     display: none;
