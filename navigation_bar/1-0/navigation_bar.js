@@ -248,11 +248,11 @@ CEF.initNavigationBar = function(options){
 
     // On active la recherche interne si demandé
     if (CEF.settings.site_search) {
-        $('#site_search').fieldWaterMark({defaultVal: 'indiquez ici votre recherche...'});
         // On active la recherche locale
+        $('#site_search').attr('placeholder','recherche dans ce site');
         CEF.localSearch();
     }else{
-        $('#site_search').fieldWaterMark({defaultVal: 'recherche sites catholiques'});
+        $('#site_search').attr('placeholder','recherche sites catholiques');
     }
 
 }
