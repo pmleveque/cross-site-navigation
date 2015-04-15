@@ -11,12 +11,14 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 class SearchHome(webapp.RequestHandler):
     def get(self):
         sites = self.request.get('sites')
+        q = self.request.get('q')
 
         html_template_path = os.path.join(
             os.path.dirname(__file__), 'recherche.html')
 
         html_template_values = {
-            'sites': sites
+            'sites': sites,
+            'q': q
         }
 
         self.response.out.write(

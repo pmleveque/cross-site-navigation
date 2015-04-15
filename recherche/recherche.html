@@ -102,9 +102,10 @@
     <div id="cef_search_box">
         <form action="/" method="get" accept-charset="utf-8">
             <p class="searchbox">
-                <gcse:searchbox enableHistory="true">
+                <input type="search" value="{q}" name="q" placeholder="Recherchez ici">
+                <button type="submit">Rechercher</button>
             </p>
-            <p style="display: none;">
+            <p>
                 <input type="radio" name="sites" value="tous" checked="true" id="tous"><label for="tous">Tous</label>
                 <input type="radio" name="sites" value="eglise.catholique.fr" id="eglisecatholiquefr"><label for="eglisecatholiquefr">eglise.catholique.fr</label>
                 <input type="radio" name="sites" value="vatican" id="vatican"><label for="vatican">Vatican</label>
@@ -115,7 +116,7 @@
     </div>
 
     <div id="cef_search_results">
-        <gcse:searchresults
+        <gcse:searchresults-only
             refinementStyle="link"
             defaultToRefinement="{{sites}}"
             resultSetSize="large">
