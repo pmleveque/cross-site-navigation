@@ -1,6 +1,6 @@
 # Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
 application: cef-cross-site-navigation
-version: 3alpha-1
+version: 3alpha-2
 runtime: python27
 threadsafe: false
 api_version: 1
