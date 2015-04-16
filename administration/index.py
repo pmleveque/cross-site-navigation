@@ -1,14 +1,13 @@
 import webapp2 as webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
 
-from admin.navbar import *
-from admin.menu import *
-from admin.link import *
-from admin.admin_index import *
-from admin.administrator import *
+from administration.navbar import *
+from administration.menu import *
+from administration.link import *
+from administration.admin_index import *
+from administration.administrator import *
 from authentification import *
 
-application = webapp.WSGIApplication([
+app = webapp.WSGIApplication([
                 ('/admin', AdminPage),
                 ('/admin/', AdminPage),
                 ('/admin/administrators', AdministratorsPage),
@@ -22,10 +21,3 @@ application = webapp.WSGIApplication([
                 (r'/admin/navbars/(.+)/instructions', NavbarInstructionsPage),
                 (r'/admin/navbars/(.+)', NavbarPage)
               ], debug=True)
-
-
-def main():
-    run_wsgi_app(application)
-
-if __name__ == "__main__":
-    main()

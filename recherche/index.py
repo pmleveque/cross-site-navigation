@@ -4,8 +4,7 @@
 import os
 from google.appengine.ext.webapp import template
 
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
+import webapp2 as webapp
 
 
 class SearchHome(webapp.RequestHandler):
@@ -24,13 +23,6 @@ class SearchHome(webapp.RequestHandler):
         self.response.out.write(
             template.render(html_template_path, html_template_values))
 
-application = webapp.WSGIApplication(
+app = webapp.WSGIApplication(
                                      [('/', SearchHome)],
                                      debug=True)
-
-
-def main():
-    run_wsgi_app(application)
-
-if __name__ == "__main__":
-    main()

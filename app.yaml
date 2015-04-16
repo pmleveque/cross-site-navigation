@@ -2,16 +2,13 @@
 application: cef-cross-site-navigation
 version: 3alpha-1
 runtime: python27
-#runtime: python
 threadsafe: false
 api_version: 1
 
 handlers:
 # Page d accueil recherche.catholique.fr
 - url: /
-  script: recherche/recherche.py
-  # static_files: recherche/recherche_v2.html
-  # upload: recherche/recherche_v2.html
+  script: recherche.index.app
 
 # custom search dioceses
 - url: /dioceses.html
@@ -27,20 +24,24 @@ handlers:
   script: navigation_bar/1-0/navigation_bar.py
 
 # Script d importation initiale (menus et barre de nav CEF)
-- url: /admin/import
+- url: /administration/import
   script: admin/import/import.py
   # Il est necessaire d etre admin du compte GAE
   login: admin
 # Script d importation initiale (menus et barre de nav CEF)
-- url: /admin/correct
+- url: /administration/correct
   script: admin/import/correct.py
   # Il est necessaire d etre admin du compte GAE
   login: admin
 
+# Interface d admin
+- url: /admin2
+  script: administration2.index.app
+  login: required
 
 # Interface d admin
 - url: /admin.*
-  script: admin/admin.py
+  script: administration.index.app
   login: required
 
 # Dossiers statiques
