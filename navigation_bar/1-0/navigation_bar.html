@@ -4,13 +4,13 @@
 <!-- À cause de l'option style="display: none;"
 	la barre de navigation ne s'affiche qu'une fois la feuille de style chargée (elle contient une instruction contraire) -->
 
-<div id='cef_navigation' style="display: none;">
+<div id='cef_navigation' style="display: none; position=fixed;">
 
 	{% if not social_links_off %}
 
 	<div id='cef_navigation_links_right' class='cef_navigation_links'>
-		Partager : <a id="facebook_share_link" href="#"><img src="http://{{host}}/img/FaceBook-icon.png" width="16" height="16" alt="Partager sur facebook"></a>
-		<a id="twitter_share_link"  href="#"><img src="http://{{host}}/img/Twitter-icon2.png" width="16" height="16" alt="Partager sur Twitter"></a>
+		<a id="facebook_share_link" href="#"><img src="http://{{host}}/img/FaceBook-icon.png" width="20" height="20" alt="Partager sur facebook"></a>
+		<a id="twitter_share_link"  href="#"><img src="http://{{host}}/img/Twitter-icon2.png" width="20" height="20" alt="Partager sur Twitter"></a>
 	</div>
 
 
@@ -27,11 +27,11 @@
 		</form>
 	</div>
 
+<!-- Menus -->
+
 	<div id='cef_navigation_links_left' class='cef_navigation_links'>
 		{% if first_menu %}
-		<a href='#'>{{ first_menu.name }}
-			<small>&#x25BC;</small>
-		</a>
+		<a href='#'>{{ first_menu.name }}</a>
 		<div class='cef_nav_menu cef_nav_menu_small'>
 			<div>
 				<ul>{% for link in first_menu_links %}
@@ -49,7 +49,7 @@
 
 		{% endif %}
 		{% if second_menu %}
-		<a href='#'>{{ second_menu.name }} <small>&#x25BC;</small></a>
+		<a href='#'>{{ second_menu.name }}</a>
 		<div class='cef_nav_menu cef_nav_menu_small'>
 			<div>
 				<ul>{% for link in second_menu_links %}
@@ -67,7 +67,7 @@
 
 		{% endif %}
 		{% if third_menu %}
-		<a href='#'>{{ third_menu.name }} <small>&#x25BC;</small></a>
+		<a href='#'>{{ third_menu.name }}</a>
 		<div class='cef_nav_menu cef_nav_menu_small'>
 			<div>
 				<ul>{% for link in third_menu_links %}
@@ -85,7 +85,7 @@
 
 		{% endif %}
 		{% if fourth_menu %}
-		<a href='#'>{{ fourth_menu.name }} <small>&#x25BC;</small></a>
+		<a href='#'>{{ fourth_menu.name }} </a>
 		<div class='cef_nav_menu cef_nav_menu_small'>
 			<div>
 				<ul>{% for link in fourth_menu_links %}
@@ -103,7 +103,7 @@
 
 		{% endif %}
 		{% if not dioceses_menu_off %}
-		<a href='#'>dioc&egrave;ses <small>&#x25BC;</small></a>
+		<a href='#'>dioc&egrave;ses</a>
 		<div class='cef_nav_menu cef_nav_menu_small'>
 			<div>
 				<ul>{% for link in nav_links.dioceses %}
@@ -123,7 +123,7 @@
 
 		{% endif %}
 		{% if not ressources_menu_off %}
-		<a href='#'>ressources <small>&#x25BC;</small></a>
+		<a href='#'>ressources</a>
 		<div class='cef_nav_menu'>
 			<div>
 				<h3>Liturgie</h3>
@@ -154,7 +154,7 @@
 
 		{% endif %}
 		{% if not acces_direct_menu_off %}
-		<a id='cef_menu_sites_link' href='#'>acc&egrave;s direct sites <small>&#x25BC;</small></a>
+		<a id='cef_menu_sites_link' href='#'>acc&egrave;s direct sites </a>
 		<div class='cef_nav_menu' id='cef_menu_sites'>
 			<div>
 				<h3>Conf&eacute;rence des &eacute;v&ecirc;ques</h3>
