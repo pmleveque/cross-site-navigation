@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+    <!-- Bootstrap CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <h1 class="text-center">Hello World</h1>
+    <table id="navbars" cellpadding="5" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>URL</th>
+                <th>Auteur</th>
+                <th>Menus</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for navbar in navbars %}
+            <tr>
+                <td>{{ navbar.name|escape }}</td>
+                <td><code>/api/{{ navbar.code|escape }}.js</code></td>
+                <td>{{ navbar.author|escape }}</td>
+                <td>
+                    <ul>
+                        {% if navbar.first_menu %}
+                        <li>{{ navbar.first_menu.name|escape }}</li>{% endif %}
+                        {% if navbar.second_menu %}
+                        <li>{{ navbar.second_menu.name|escape }}</li>{% endif %}
+                    </ul>
+                </td>
+                <td>
+                    <a class="button_link" href="/admin/navbars/{{ navbar.key }}/instructions">Instructions</a>
+                    <a class="button_link" href="/admin/navbars/{{ navbar.key }}">Modifier</a>
+                    {% if not menu.special_kind %}
+                    <a class="DELETE button_link" href="/admin/navbars/{{ navbar.key }}">Supprimer</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% for menu in menus %}
+        {{ menu }}
+    {% endfor %}
+
+    {{ menu1 }}
+
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
