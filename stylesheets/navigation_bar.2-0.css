@@ -11,7 +11,6 @@
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: bold;
-
   line-height: 36px;
   text-align: left;
   color: #313336;
@@ -30,17 +29,16 @@
   border-image-source: none;
   border-image-width: 1;
   border-left-color: rgb(44, 44, 44);
-  border-left-style: none;
+   border-left-style: none;
   border-left-width: 0px;
   border-right-color: rgb(44, 44, 44);
   border-right-style: none;
   border-right-width: 0px;
   border-top-color: rgb(44, 44, 44);
   border-top-style: none;
-  border-top-width: 0px;
-  box-shadow: rgba(1, 1, 1, 0.498039) 0px 0px 6px 0px;
-
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f2f2f2), color-stop(1, #ffffff));
+   border-top-width: 0px;
+   box-shadow: rgba(1, 1, 1, 0.498039) 0px 0px 6px 0px;
+   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f2f2f2), color-stop(1, #ffffff));
   background: -ms-linear-gradient(bottom, #f2f2f2, #ffffff);
   background: -moz-linear-gradient(center bottom, #f2f2f2 0%, #ffffff 100%);
   background: -o-linear-gradient(#ffffff, #f2f2f2);
@@ -56,25 +54,19 @@
 
 /*LOGO*/
 
-/*#cef_navigation #cef_navigation_links_left:before {
-    position: absolute;
-    top: 7px;
-    left: 0;
+#cef_navigation #cef_navigation_links_left .logo_recherche{
+    float: left;
+    margin-top: 6px;
     display: block;
-    height: 18px;
-    content: "";
-    font-size: 18px;
-    line-height: 18px;
-  }*/
+    margin-left: 6px;
+    padding: 0px;
+}
 
-#cef_navigation #cef_navigation_links_left > a:before {
+ #cef_navigation_links_left > a:before {
     content: '・';
     vertical-align: middle;
   }
 
-#cef_navigation #cef_navigation_links_left > a:first-child:before {
-    display: none;
-  }
 
 /*SEARCH*/
 
@@ -100,14 +92,12 @@
   display: block;
   font-size: 12px;
   border: 1px solid #f2f2f2;
-  border-bottom-color: #cecece;
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  -o-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
-  -webkit-rtl-ordering: logical;
-  -webkit-user-select: text;
-  cursor: auto;
+  cursor: pointer;
+  border-radius: 15px 15px 15px 15px;
+}
+
+input[type="text"]:focus {
+  outline: none;
 }
 
 #cef_navigation input[type="submit"] {
@@ -117,38 +107,26 @@
   overflow: hidden;
 }
 
-#site_search{
-  min-width: 190px;
-}
-
-
 #cef_navigation #site_search_form input#site_search {
   padding: 0 30px 0 7px;
   margin: 0;
   height: 24px;
-  cursor: pointer;
-  -webkit-appearance: none;
-  -webkit-border-radius: 15px 15px 15px 15px;
-  -moz-border-radius: 15px 15px 15px 15px;
-  border-radius: 15px 15px 15px 15px;
   -moz-background-clip: padding-box;
   -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+  /* background-clip: padding-box; */
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  z-index: auto;
+  /* -webkit-box-sizing: border-box; */
+  border: 1px solid #b2b2b2;
+  min-width: 190px;
+  border-radius: 15px 15px 15px 15px;
   }
 
-  #cef_navigation #site_search_form #site_search_submit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 24px;
-    width: 24px;
-    background: none;
-  }
+#cef_navigation input#local_search{
+  padding: 0 30px 0 7px;
+  width: 120px;
 
+}
   #cef_navigation .cef_nav_menu {
     top: 32px;
     background: #f2f2f2;
@@ -162,12 +140,6 @@
     display: block;
     margin-right: 6px;
     padding: 0px;
-}
-
-#cef_navigation_links_left > a:before {
-  content: '.';
-  font-size: 20px;
-  vertical-align: middle;
 }
 
 #cef_navigation .cef_navigation_links a {
@@ -201,27 +173,6 @@
 
 #site_search_form.cef_navigation_links a {
     vertical-align: -2px;
-}
-
-#site_search_form input#site_search {
-    border: 1px solid #b2b2b2;
-    border-radius: 0%;
-    padding: 0;
-    margin: 0;
-    height: 14px;
-    width: 150px;
-}
-
-#site_search_form input#site_search_submit {
-    padding: 0;
-    margin: 0;
-    height: 14px;
-    width: 14px;
-    border-style: none;
-}
-
-#site_search_form input#site_search_submit:hover {
-    opacity: 0.45;
 }
 
 
@@ -287,14 +238,7 @@
     display: block;
 }
 
-div.cef_nav_menu input[type='text'] {
-    width: 110px;
-    margin-right: 5px;
-}
 
-#cef_navigation_links_left div.cef_nav_menu div ul form input[type=text] {
-    border: 1px inset #b2b2b2;
-}
 
 /*RESPONSIVE*/
 
