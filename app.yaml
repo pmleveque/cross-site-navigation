@@ -24,12 +24,12 @@ handlers:
   script: navigation_bar/1-0/navigation_bar.py
 
 # Script d importation initiale (menus et barre de nav CEF)
-- url: /administration/import
+- url: /admin/import
   script: admin/import/import.py
   # Il est necessaire d etre admin du compte GAE
   login: admin
 # Script d importation initiale (menus et barre de nav CEF)
-- url: /administration/correct
+- url: /admin/correct
   script: admin/import/correct.py
   # Il est necessaire d etre admin du compte GAE
   login: admin
