@@ -1,6 +1,8 @@
-/* @override 
+/* @override
 	http://localhost:8080/stylesheets/site_search.1-0.css
 */
+
+/*google search perso*/
 
 .gcsc-branding {
     clear: both;
@@ -273,7 +275,7 @@ div.gs-newsResult.gs-result {
 
 /* Image Search
  */
- 
+
 .gsc-imageResult {
   float: left;
   margin-bottom: 1em;
@@ -321,16 +323,6 @@ div.gs-newsResult.gs-result {
 
 /* Tabs */
 
-/* tabbed mode of search control
- * .gsc-tabsArea : the box containing all of the tabs
- * .gsc-tabsAreaInvisible : same as above, but this is the state when search has been cleared
- * .gsc-tabHeader : an individual tab
- * .gsc-tabHeader.gsc-tabhActive : the active tab
- * .gsc-tabHeader.gsc-tabhInactive : an inactive tab
- * .gsc-tabData : the data area/box containg results and header data for each tab
- * .gsc-tabData.gsc-tabdActive : the data area for the active tab
- * .gsc-tabData.gsc-tabdInactive : the data area for inactive tabs
- */
 .gsc-tabsArea {
   clear: both;
   margin-top: 6px;
@@ -383,11 +375,7 @@ div.gs-newsResult.gs-result {
   display: none;
   }
 
-/* tab specific results header supression
- * - no twiddle, tabbed mode runs in full expand mode
- * - no title
- * - no stats
- */
+
 .gsc-tabData .gsc-resultsHeader .gsc-title {
   display: none;
   }
@@ -405,8 +393,6 @@ div.gsc-cursor-box {
 }
 
 /* Float box */
-
-
 
 #cef_search_floatbox {
 	font: 14px Calibri, "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
