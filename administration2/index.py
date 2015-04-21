@@ -6,6 +6,8 @@ import os
 from google.appengine.ext.webapp import template
 import pickle
 import logging
+import yaml
+import pprint
 
 
 class Menu(db.Model):
@@ -116,26 +118,55 @@ class Administrator(db.Model):
     admin = db.BooleanProperty(default=False)
 
 
+class ImportPage(webapp.RequestHandler):
+    def get(self):
+
+        f = open(os.path.join(os.path.dirname(__file__), '../dump.yaml'))
+        [navbars, menus, links, admins] = yaml.load(f)
+        f.close()
+
+        for item in links:
+            item.put()
+
+        for item in menus:
+            item.put()
+
+        for item in navbars:
+            item.put()
+
+        for item in admins:
+            item.put()
+
+        self.response.out.write('ok')
+
+
+class DumpPage(webapp.RequestHandler):
+
+    def get(self):
+        self.response.headers.add_header("Content-Type", "text/x-yaml")
+
+        navbars = Navbar.all().fetch(1000)
+        menus = Menu.all().fetch(1000)
+        links = Link.all().fetch(1000)
+        admins = Administrator.all().fetch(1000)
+
+        self.response.out.write(yaml.dump([navbars, menus, links, admins]))
+
+
 class AdminPage(webapp.RequestHandler):
 
     def get(self):
-        # L'option admin permet de voire toutes les barres
-        # de navigation et tous les menus de tous les contributeurs
-
-        menu1 = MenuNDB(
-            name="test", links=pickle.dumps(Link.all())
-        ).put()
-
-        logging.debug("value of my var is %s", str(menu1))
+        # logging.debug("value of my var is %s", str(menu1))
 
         path = os.path.join(
             os.path.dirname(__file__),
             'admin2.html'
         )
+
         self.response.out.write(
             template.render(
                 path,
-                {'menu1': menu1,
+                {
                  'menus': Menu.all(),
                  'navbars': Navbar.all()
                  }
@@ -143,5 +174,7 @@ class AdminPage(webapp.RequestHandler):
         )
 
 app = webapp.WSGIApplication([
-    ('.*', AdminPage),
+    ('/admin2/dump.yaml', DumpPage),
+    # ('/admin2/import', ImportPage),
+    ('/admin2/', AdminPage),
 ], debug=True)
