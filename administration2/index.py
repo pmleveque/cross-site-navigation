@@ -1,12 +1,11 @@
 import webapp2 as webapp
 
 from google.appengine.ext import db
-from google.appengine.ext import ndb
+from models import *
+from google.appengine.api.users import *
 import os
 from google.appengine.ext.webapp import template
-import pickle
-import logging
-import yaml
+import json
 import pprint
 
 
@@ -34,6 +33,22 @@ class Menu(db.Model):
             shared=self.shared,
             links=self.links_as_array()
         )
+
+    def to_set(self):
+        if self.author:
+            author_email = str(self.author.email())
+        else:
+            author_email = None
+
+        return {
+            'name': self.name,
+            'key': str(self.key()),
+            'date': str(self.date),
+            'special_kind': self.special_kind,
+            'author': author_email,
+            'shared': self.shared,
+            'links': self.links_as_array(),
+            }
 
 
 class Link(db.Model):
@@ -68,6 +83,12 @@ class Navbar(db.Model):
                                            self.third_menu,
                                            self.fourth_menu] if menu]
 
+    def menus_as_key_array(self):
+        return [str(menu.key()) for menu in [self.first_menu,
+                                             self.second_menu,
+                                             self.third_menu,
+                                             self.fourth_menu] if menu]
+
     def to_ndb(self):
         return NavbarNDB(
             code=self.code,
@@ -79,78 +100,96 @@ class Navbar(db.Model):
             cse_unique_id=self.cse_unique_id
         )
 
+    def to_set(self):
+        if self.author:
+            author_email = str(self.author.email())
+        else:
+            author_email = None
 
-class MenuNDB(ndb.Model):
-    name = ndb.StringProperty(required=True)
-    date = ndb.DateTimeProperty(auto_now_add=True)
-    links = ndb.PickleProperty()
-    # special_kind sert a identifier les menus qui servent
-    # a composer les menus speciaux (ressources, dioceses...)
-    special_kind = ndb.StringProperty()
-    author = ndb.UserProperty()
-    shared = ndb.BooleanProperty()
-
-
-class MenuLinkNDB(ndb.Model):
-    img_path = ndb.StringProperty(required=True)
-    link = ndb.StringProperty(required=True)
-
-    @classmethod
-    def all():
-        return super.query().fetch(1000)
-
-
-class NavbarNDB(ndb.Model):
-    # TODO: should be lowercase (will be the script filename)
-    code = ndb.StringProperty(required=True)
-    name = ndb.StringProperty(required=True)
-    author = ndb.UserProperty()  # TODO: required
-    date = ndb.DateTimeProperty(auto_now_add=True)
-    menus = ndb.StructuredProperty(MenuNDB, repeated=True)
-    menus_links = ndb.StructuredProperty(MenuLinkNDB, repeated=True)
-    settings = ndb.PickleProperty()
-    # cse: custom search engine
-    cse_unique_id = ndb.StringProperty()
+        return {
+            'code': self.code,
+            'name': self.name,
+            'author': author_email,
+            'date': str(self.date),
+            'menus': self.menus_as_key_array(),
+            'settings': self.settings,
+            'cse_unique_id': self.cse_unique_id,
+            }
 
 
 class Administrator(db.Model):
     user = db.UserProperty()
     admin = db.BooleanProperty(default=False)
 
+    def to_set(self):
+        return {
+            'user': self.user.email(),
+            'admin': self.admin
+        }
+
 
 class ImportPage(webapp.RequestHandler):
     def get(self):
+        self.response.headers.add_header("Content-Type", "text/text")
 
-        f = open(os.path.join(os.path.dirname(__file__), '../dump.yaml'))
-        [navbars, menus, links, admins] = yaml.load(f)
+        f = open(os.path.join(os.path.dirname(__file__), 'dump.json'))
+        [navbars, menus, admins] = json.load(f)
         f.close()
 
-        for item in links:
-            item.put()
+        for a in admins:
+            admin = AdministratorNDB(
+                user=User(a['user']),
+                admin=a['admin']
+            )
+            admin.put()
+            self.response.out.write(pprint.pformat(admin))
 
-        for item in menus:
-            item.put()
+        new_menus = {}
 
-        for item in navbars:
-            item.put()
+        for m in menus:
+            menu = MenuNDB(
+                name=m['name'],
+                # key=m['key'],
+                # date=m['date'],
+                special_kind=m['special_kind'],
+                author=User(m['author']),
+                shared=m['shared'],
+                links=m['links'],
+                )
+            menu.put()
+            new_menus[m['key']] = menu
+            self.response.out.write(pprint.pformat(menu))
 
-        for item in admins:
-            item.put()
+        for n in navbars:
+            navbar = NavbarNDB(
+                code=n['code'],
+                name=n['name'],
+                author=User(n['author']),
+                # date=n['date'],
+                # menus=n['menus'],
+                settings=n['settings'],
+                cse_unique_id=n['cse_unique_id'],
+                )
 
-        self.response.out.write('ok')
+            for key in n['menus']:
+                navbar.menus.append(new_menus[key])
+
+            navbar.put()
+            self.response.out.write(pprint.pformat(navbar))
 
 
 class DumpPage(webapp.RequestHandler):
 
     def get(self):
-        self.response.headers.add_header("Content-Type", "text/x-yaml")
+        self.response.headers.add_header("Content-Type", "application/json")
 
-        navbars = Navbar.all().fetch(1000)
-        menus = Menu.all().fetch(1000)
-        links = Link.all().fetch(1000)
-        admins = Administrator.all().fetch(1000)
+        navbars = map(lambda n: n.to_set(), Navbar.all().fetch(1000))
+        menus = map(lambda n: n.to_set(), Menu.all().fetch(1000))
+        admins = map(lambda n: n.to_set(), Administrator.all().fetch(1000))
 
-        self.response.out.write(yaml.dump([navbars, menus, links, admins]))
+        self.response.out.write(json.dumps([
+            navbars, menus, admins
+            ]))
 
 
 class AdminPage(webapp.RequestHandler):
@@ -174,7 +213,7 @@ class AdminPage(webapp.RequestHandler):
         )
 
 app = webapp.WSGIApplication([
-    ('/admin2/dump.yaml', DumpPage),
-    # ('/admin2/import', ImportPage),
+    ('/admin2/dump.json', DumpPage),
+    ('/admin2/import', ImportPage),
     ('/admin2/', AdminPage),
 ], debug=True)
