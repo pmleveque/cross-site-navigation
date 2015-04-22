@@ -1,6 +1,6 @@
 # Reference: http://code.google.com/intl/fr-FR/appengine/docs/python/config/appconfig.html
 application: cef-cross-site-navigation
-version: 3alpha-3
+version: 3beta
 runtime: python27
 threadsafe: false
 api_version: 1
@@ -10,41 +10,25 @@ handlers:
 - url: /
   script: recherche.index.app
 
-# custom search dioceses
-- url: /dioceses.html
-  static_files: recherche/dioceses.html
-  upload: recherche/dioceses.html
+# Responsive pages
+- url: /nav/.*
+  script: nav.index.app
 
-# Ancienne version de l API
-- url: /api/navigation_bar.0-4.js
-  script: navigation_bar/0-4/navigation_bar.py
-
-# Nouvelle version de l API JS
+# JS API
 - url: /api/.*
   script: navigation_bar/1-0/navigation_bar.py
 
-# Script d importation initiale (menus et barre de nav CEF)
-- url: /admin/import
-  script: administration/import/import.py
-  # Il est necessaire d etre admin du compte GAE
-  login: admin
-# Script d importation initiale (menus et barre de nav CEF)
-- url: /admin/correct
-  script: administration/import/correct.py
-  # Il est necessaire d etre admin du compte GAE
-  login: admin
-
-# Interface d admin
+# New admin pages
 - url: /admin2.*
   script: administration2.index.app
   login: required
 
-# Interface d admin
+# Old admin pages
 - url: /admin.*
   script: administration.index.app
   login: required
 
-# Dossiers statiques
+# Static files
 - url: /stylesheets
   static_dir: stylesheets
 
